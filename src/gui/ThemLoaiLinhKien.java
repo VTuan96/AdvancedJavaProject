@@ -5,17 +5,64 @@
  */
 package gui;
 
+import databases.DbLoaiLinhKien;
+import java.util.ArrayList;
+import static java.util.Collections.list;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import model.LoaiLinhKien;
+
 /**
  *
  * @author dtvta
  */
 public class ThemLoaiLinhKien extends javax.swing.JFrame {
+    
 
     /**
      * Creates new form ThemLoaiLinhKien
      */
     public ThemLoaiLinhKien() {
         initComponents();
+
+        showTableLoaiLinhKien();
+        
+    }
+    
+    private void showTableLoaiLinhKien(){
+        ArrayList<LoaiLinhKien> list=new ArrayList<>();
+        list=new DbLoaiLinhKien().getListLoaiLinhKien();
+        String[] column=new String[]{"ID", "Ten loai linh kien"};
+        
+        //cap nhat lai model cho table
+        DefaultTableModel model=(DefaultTableModel) tbLoaiLinhKien.getModel();
+        model.setRowCount(0); //set so dong = 0
+        model.setColumnCount(0); //set so cot =0
+        
+        //them cot vao model
+        for( int i=0 ; i<column.length ; i++){
+            model.addColumn(column[i]);
+        }
+        
+        //them dong vao model
+        Object[] row=new Object[column.length];
+        for (int j=0 ; j<list.size() ; j++){
+            //k cot
+            for (int k=0 ; k<column.length ; k++){
+                if(k==0) //cot 1
+                    row[k]=list.get(j).getIdLoaiLinhKien();
+                else if (k==1) // cot 2
+                    row[k]=list.get(j).getTenLoaiLinhKien();
+            }
+                
+            model.addRow(row);
+        }
+        
+
     }
 
     /**
@@ -46,6 +93,11 @@ public class ThemLoaiLinhKien extends javax.swing.JFrame {
         jLabel2.setText("Tên loại linh kiện");
 
         btnThemLoaiLinhKien.setText("Thêm");
+        btnThemLoaiLinhKien.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemLoaiLinhKienActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -78,13 +130,10 @@ public class ThemLoaiLinhKien extends javax.swing.JFrame {
 
         tbLoaiLinhKien.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
         jScrollPane1.setViewportView(tbLoaiLinhKien);
@@ -128,6 +177,22 @@ public class ThemLoaiLinhKien extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnThemLoaiLinhKienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemLoaiLinhKienActionPerformed
+        // TODO add your handling code here:
+        String tenLoaiLinhKien=txtTenLoaiLinhKien.getText().toString();
+        LoaiLinhKien llk=new LoaiLinhKien(tenLoaiLinhKien);
+        DbLoaiLinhKien dbLoaiLinhKien=new DbLoaiLinhKien();
+        boolean res=dbLoaiLinhKien.insertLoaiLinhKien(llk);
+        if(!res){
+            System.out.println("Insert Success!");
+            tbLoaiLinhKien.removeAll();
+            showTableLoaiLinhKien();
+
+        } else {
+            System.out.println("Insert Fail!");
+        } 
+    }//GEN-LAST:event_btnThemLoaiLinhKienActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -159,9 +224,11 @@ public class ThemLoaiLinhKien extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new ThemLoaiLinhKien().setVisible(true);
+                
             }
         });
     }
+  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnThemLoaiLinhKien;
@@ -174,3 +241,4 @@ public class ThemLoaiLinhKien extends javax.swing.JFrame {
     private javax.swing.JTextField txtTenLoaiLinhKien;
     // End of variables declaration//GEN-END:variables
 }
+

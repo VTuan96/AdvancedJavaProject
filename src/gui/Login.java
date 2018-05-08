@@ -3,16 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package view;
+package gui;
 
+import databases.DbLoaiLinhKien;
 import databases.DbNguoiDung;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import model.LinhKien;
+import model.LoaiLinhKien;
 import model.NguoiDung;
 
 /**
@@ -131,12 +135,14 @@ public class Login extends javax.swing.JFrame{
         
         NguoiDung nguoiDung=dbNguoiDung.checkNguoiDung(user, pass);
         if (nguoiDung!=null){
-            
             Home home=new Home();
             home.show();
             this.setVisible(false);
+        } else {
+            System.out.println("Login fail!");
         }
         
+
     }//GEN-LAST:event_btnLoginActionPerformed
 
     
@@ -171,7 +177,6 @@ public class Login extends javax.swing.JFrame{
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Login().setVisible(true);
-                
                 
             }
         });

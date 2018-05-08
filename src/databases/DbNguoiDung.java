@@ -27,11 +27,13 @@ public class DbNguoiDung {
     }
     
     public NguoiDung checkNguoiDung(String user, String pass){
+        System.out.println(user+" , "+pass);
         NguoiDung res=null;
         String query="Select * from tbNguoiDung where "+Ten_nguoi_dung+" = '"+user+"' and "+Mat_khau+"='"+pass+"'";
         try {
             result=db.getStatement().executeQuery(query);
             while(result.next()){
+                System.out.println(user+" , "+pass);
                 res=new NguoiDung(user,pass);
                
             }

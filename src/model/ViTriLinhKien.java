@@ -18,6 +18,10 @@ public class ViTriLinhKien {
         this.tenViTriLinhKien = tenViTriLinhKien;
     }
 
+    public ViTriLinhKien(String tenViTriLinhKien) {
+        this.tenViTriLinhKien = tenViTriLinhKien;
+    }
+
     public ViTriLinhKien() {
     }
 

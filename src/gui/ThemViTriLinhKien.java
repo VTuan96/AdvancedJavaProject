@@ -5,19 +5,31 @@
  */
 package gui;
 
+import databases.DbLoaiLinhKien;
+import databases.DbViTriLinhKien;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import model.LoaiLinhKien;
+import model.ViTriLinhKien;
+import ultilities.TableModelCustom;
+
 /**
  *
  * @author dtvta
  */
 public class ThemViTriLinhKien extends javax.swing.JFrame {
-
+    String[] column=new String[]{"ID", "Ten vi tri linh kien"};
     /**
      * Creates new form ThemViTriLinhKien
      */
     public ThemViTriLinhKien() {
         initComponents();
+//        showTableLoaiLinhKien();
+        
+        new TableModelCustom().showTableLoaiLinhKien(column, tbViTriLinhKien);
     }
 
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -46,6 +58,11 @@ public class ThemViTriLinhKien extends javax.swing.JFrame {
         jLabel2.setText("Tên vị trí linh kiện");
 
         btnThemViTriLinhKien.setText("Thêm");
+        btnThemViTriLinhKien.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemViTriLinhKienActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -131,6 +148,21 @@ public class ThemViTriLinhKien extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnThemViTriLinhKienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemViTriLinhKienActionPerformed
+        // TODO add your handling code here:
+        String tenViTriLinhKien=txtViTriLinhKien.getText().toString();
+        ViTriLinhKien vtlk=new ViTriLinhKien(tenViTriLinhKien);
+        DbViTriLinhKien dbViTriLinhKien=new DbViTriLinhKien();
+        boolean res=dbViTriLinhKien.insertViTriLinhKien(vtlk);
+        if(!res){
+            System.out.println("Insert Success!");
+            new TableModelCustom().showTableLoaiLinhKien(column, tbViTriLinhKien);
+
+        } else {
+            System.out.println("Insert Fail!");
+        } 
+    }//GEN-LAST:event_btnThemViTriLinhKienActionPerformed
 
     /**
      * @param args the command line arguments

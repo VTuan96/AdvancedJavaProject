@@ -14,6 +14,7 @@ public class HoaDon {
     private String ngayNhap;
     private int khachHangId;
     private int chiTietHoaDonId;
+    private String tongTien;
 
     public HoaDon(int idHoaDon, String ngayNhap, int khachHangId, int chiTietHoaDonId) {
         this.idHoaDon = idHoaDon;
@@ -21,6 +22,15 @@ public class HoaDon {
         this.khachHangId = khachHangId;
         this.chiTietHoaDonId = chiTietHoaDonId;
     }
+
+    public HoaDon(int idHoaDon, String ngayNhap, int khachHangId, int chiTietHoaDonId, String tongTien) {
+        this.idHoaDon = idHoaDon;
+        this.ngayNhap = ngayNhap;
+        this.khachHangId = khachHangId;
+        this.chiTietHoaDonId = chiTietHoaDonId;
+        this.tongTien = tongTien;
+    }
+    
 
     public HoaDon() {
     }
@@ -35,6 +45,14 @@ public class HoaDon {
 
     public String getNgayNhap() {
         return ngayNhap;
+    }
+
+    public String getTongTien() {
+        return tongTien;
+    }
+
+    public void setTongTien(String tongTien) {
+        this.tongTien = tongTien;
     }
 
     public void setNgayNhap(String ngayNhap) {

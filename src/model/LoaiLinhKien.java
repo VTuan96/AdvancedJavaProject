@@ -18,6 +18,10 @@ public class LoaiLinhKien {
         this.tenLoaiLinhKien = tenLoaiLinhKien;
     }
 
+    public LoaiLinhKien(String tenLoaiLinhKien) {
+        this.tenLoaiLinhKien = tenLoaiLinhKien;
+    }
+
     public LoaiLinhKien() {
     }
 
