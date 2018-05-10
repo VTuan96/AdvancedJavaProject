@@ -21,13 +21,13 @@ public class CreateDb {
     private Connection connect ;
     private Statement statement;
     
-    private static final String localhost="127.0.0.1:8080";
+    private static final String localhost="127.0.0.1";
     private static final String database="dbcuahangdientu";
     private static final String user="root";
     private static final String password="";
     private static final String characterEncoding="utf8";
     
-    private static final String connection="jdbc:mysql://"+localhost+"/"+database+"?characterEncoding=utf-8";
+    private static final String connection="jdbc:mysql://"+localhost+"/"+database+"?useUnicode=true&characterEncoding=utf-8";
 
     public CreateDb() {
         

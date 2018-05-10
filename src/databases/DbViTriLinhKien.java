@@ -62,4 +62,20 @@ public class DbViTriLinhKien {
         
         return mList;
     }
+    
+     public int getIdByName(String name){
+        int id=0;
+        String query="Select * from "+TbViTriLinhKien + " where "+Ten_vi_tri_linh_kien+ "= '"+name+" '";
+        try{
+            result=db.getStatement().executeQuery(query);
+            while(result.next()){
+                id=result.getInt(Id_vi_tri_linh_kien);
+            }
+            
+        } catch (SQLException ex){
+            ex.printStackTrace();
+        }
+        
+        return id;
+    }
 }

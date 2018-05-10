@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import static java.util.Collections.list;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.WindowConstants;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
@@ -30,6 +31,9 @@ public class ThemLoaiLinhKien extends javax.swing.JFrame {
         initComponents();
 
         showTableLoaiLinhKien();
+        
+        //xoa bo cua so khi dong
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         
     }
     
@@ -84,6 +88,11 @@ public class ThemLoaiLinhKien extends javax.swing.JFrame {
         tbLoaiLinhKien = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 25)); // NOI18N
         jLabel1.setText("Thêm loại linh kiện");
@@ -193,6 +202,12 @@ public class ThemLoaiLinhKien extends javax.swing.JFrame {
         } 
     }//GEN-LAST:event_btnThemLoaiLinhKienActionPerformed
 
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+        Home home=new Home();
+        home.setVisible(true);
+    }//GEN-LAST:event_formWindowClosed
+
     /**
      * @param args the command line arguments
      */
@@ -227,8 +242,13 @@ public class ThemLoaiLinhKien extends javax.swing.JFrame {
                 
             }
         });
+        
+        
     }
+
+   
   
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnThemLoaiLinhKien;

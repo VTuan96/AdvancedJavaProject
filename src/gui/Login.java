@@ -134,6 +134,7 @@ public class Login extends javax.swing.JFrame{
         dbNguoiDung=new DbNguoiDung();
         
         NguoiDung nguoiDung=dbNguoiDung.checkNguoiDung(user, pass);
+      
         if (nguoiDung!=null){
             Home home=new Home();
             home.show();

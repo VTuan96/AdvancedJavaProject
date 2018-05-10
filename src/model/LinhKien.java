@@ -11,12 +11,26 @@ package model;
  */
 public class LinhKien {
     private int idLinhKien;
+    private String tenLinhKien;
     private String hinhAnh;
     private String ngayNhap;
     private String giaNhap;
     private String giaBan;
     private int loaiLinhKienId;
     private int viTriLinhKienId;
+
+    public LinhKien(int idLinhKien, String tenLinhKien, String hinhAnh, String ngayNhap, String giaNhap, String giaBan, int loaiLinhKienId, int viTriLinhKienId) {
+        this.idLinhKien = idLinhKien;
+        this.tenLinhKien = tenLinhKien;
+        this.hinhAnh = hinhAnh;
+        this.ngayNhap = ngayNhap;
+        this.giaNhap = giaNhap;
+        this.giaBan = giaBan;
+        this.loaiLinhKienId = loaiLinhKienId;
+        this.viTriLinhKienId = viTriLinhKienId;
+    }
+    
+    
 
     public LinhKien(int idLinhKien, String hinhAnh, String ngayNhap, String giaNhap, String giaBan, int loaiLinhKienId, int viTriLinhKienId) {
         this.idLinhKien = idLinhKien;
@@ -28,7 +42,36 @@ public class LinhKien {
         this.viTriLinhKienId = viTriLinhKienId;
     }
 
+    public LinhKien(String tenLinhKien, String hinhAnh, String ngayNhap, String giaNhap, String giaBan, int loaiLinhKienId, int viTriLinhKienId) {
+        this.tenLinhKien = tenLinhKien;
+        this.hinhAnh = hinhAnh;
+        this.ngayNhap = ngayNhap;
+        this.giaNhap = giaNhap;
+        this.giaBan = giaBan;
+        this.loaiLinhKienId = loaiLinhKienId;
+        this.viTriLinhKienId = viTriLinhKienId;
+    }
+    
+    
+
+    public LinhKien(String hinhAnh, String ngayNhap, String giaNhap, String giaBan, int loaiLinhKienId, int viTriLinhKienId) {
+        this.hinhAnh = hinhAnh;
+        this.ngayNhap = ngayNhap;
+        this.giaNhap = giaNhap;
+        this.giaBan = giaBan;
+        this.loaiLinhKienId = loaiLinhKienId;
+        this.viTriLinhKienId = viTriLinhKienId;
+    }
+
     public LinhKien() {
+    }
+
+    public String getTenLinhKien() {
+        return tenLinhKien;
+    }
+
+    public void setTenLinhKien(String tenLinhKien) {
+        this.tenLinhKien = tenLinhKien;
     }
 
     public int getIdLinhKien() {
