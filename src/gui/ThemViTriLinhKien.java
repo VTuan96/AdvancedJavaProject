@@ -25,6 +25,9 @@ public class ThemViTriLinhKien extends javax.swing.JFrame {
     public ThemViTriLinhKien() {
         initComponents();
 //        showTableLoaiLinhKien();
+
+        //xoa bo cua so khi dong
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         
         new TableModelCustom().showTableLoaiLinhKien(column, tbViTriLinhKien);
     }
@@ -49,6 +52,11 @@ public class ThemViTriLinhKien extends javax.swing.JFrame {
         tbViTriLinhKien = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 25)); // NOI18N
         jLabel1.setText("Thêm vị trí linh kiện");
@@ -103,7 +111,15 @@ public class ThemViTriLinhKien extends javax.swing.JFrame {
             new String [] {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tbViTriLinhKien);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -163,6 +179,12 @@ public class ThemViTriLinhKien extends javax.swing.JFrame {
             System.out.println("Insert Fail!");
         } 
     }//GEN-LAST:event_btnThemViTriLinhKienActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+        Home home=new Home();
+        home.setVisible(true);
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments
