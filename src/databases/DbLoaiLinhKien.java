@@ -38,13 +38,19 @@ public class DbLoaiLinhKien {
     */
     public boolean insertLoaiLinhKien(LoaiLinhKien llk){
         boolean res=true;
-        String query="Insert into " + TbLoaiLinhKien + "(" + Id_loai_linh_kien + ", " + Ten_loai_linh_kien + ") values" +
-                        " ( null" + ", '" + llk.getTenLoaiLinhKien() + "')";
+        String query="Insert into " + TbLoaiLinhKien + "(" + Id_loai_linh_kien + ", " +
+                Ten_loai_linh_kien + ") values" + " ( null" + ", '" + llk.getTenLoaiLinhKien() + "')";
         System.out.println(query);
+        
         try {
             //excute() function true if the first result is a ResultSet object;
             //false if it is an update count or there are no results
-            res=db.getStatement().execute(query);
+            //check lpai linh kien in database
+            boolean check = checkLoaiLinhKien(llk.getTenLoaiLinhKien());
+            if (!check) //loai linh kien chua co trong co so du lieu
+                res=db.getStatement().execute(query);
+            else 
+                res=true;
         } catch (SQLException ex) {
             Logger.getLogger(DbLoaiLinhKien.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -87,5 +93,41 @@ public class DbLoaiLinhKien {
         }
         
         return id;
+    }
+    
+    public String getNameById(int id){
+        String res="";
+        String query="Select * from "+TbLoaiLinhKien + " where "+Id_loai_linh_kien+ "= '"+id+" '";
+        try{
+            result=db.getStatement().executeQuery(query);
+            while(result.next()){
+                res=result.getString(Ten_loai_linh_kien);
+            }
+            System.out.println(query);
+        } catch (SQLException ex){
+            ex.printStackTrace();
+        }
+        
+        return res;
+    }
+    
+    public boolean checkLoaiLinhKien(String name){
+        boolean res=false; //linh kien chua ton tai
+        String query="Select * from "+TbLoaiLinhKien + " where "+Ten_loai_linh_kien+ " LIKE '"+name+"'";
+        try{
+            result=db.getStatement().executeQuery(query);
+            while(result.next()){
+                int id = result.getInt(Id_loai_linh_kien);
+                if (id >0){
+                    res = true;
+                } else
+                    res =false;
+            }
+            System.out.println(query);
+        } catch (SQLException ex){
+            ex.printStackTrace();
+        }
+        
+        return res;
     }
 }

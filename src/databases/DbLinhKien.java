@@ -78,4 +78,60 @@ public class DbLinhKien {
         
         return mList;
     }
+    
+    //lay list linh kien theo ten linh kien A-Z
+    public ArrayList<LinhKien> getListLinhKienSortDown(){
+        ArrayList<LinhKien> mList=new ArrayList();
+        String query="Select * from "+ TbLinhKien + " ORDER BY " + Ten_linh_kien + " ASC" ;
+        System.out.println(query);
+        try{
+            result=db.getStatement().executeQuery(query);
+            while(result.next()){
+                int id=result.getInt(Id_linh_kien);
+                String tenLK=result.getString(Ten_linh_kien);
+                String hinhAnh=result.getString(Hinh_anh);
+                String ngayNhap=result.getString(Ngay_nhap);
+                String giaNhap=result.getString(Gia_nhap);
+                String giaBan = result.getString(Gia_ban);
+                int idLLK=result.getInt(Loai_linh_kien_id);
+                int idVTLK= result.getInt(Vi_tri_linh_kien_id);
+                LinhKien lk=new LinhKien(id, tenLK, hinhAnh, ngayNhap, giaNhap, giaBan, idLLK, idVTLK);
+                
+                mList.add(lk);
+            }
+            
+        } catch (SQLException ex){
+            ex.printStackTrace();
+        }
+        
+        return mList;
+    }
+    
+    //lay list linh kien theo ten linh kien Z-A
+    public ArrayList<LinhKien> getListLinhKienSortUp(){
+        ArrayList<LinhKien> mList=new ArrayList();
+        String query="Select * from "+ TbLinhKien + " ORDER BY " + Ten_linh_kien + " DESC" ;
+        System.out.println(query);
+        try{
+            result=db.getStatement().executeQuery(query);
+            while(result.next()){
+                int id=result.getInt(Id_linh_kien);
+                String tenLK=result.getString(Ten_linh_kien);
+                String hinhAnh=result.getString(Hinh_anh);
+                String ngayNhap=result.getString(Ngay_nhap);
+                String giaNhap=result.getString(Gia_nhap);
+                String giaBan = result.getString(Gia_ban);
+                int idLLK=result.getInt(Loai_linh_kien_id);
+                int idVTLK= result.getInt(Vi_tri_linh_kien_id);
+                LinhKien lk=new LinhKien(id, tenLK, hinhAnh, ngayNhap, giaNhap, giaBan, idLLK, idVTLK);
+                
+                mList.add(lk);
+            }
+            
+        } catch (SQLException ex){
+            ex.printStackTrace();
+        }
+        
+        return mList;
+    }
 }
