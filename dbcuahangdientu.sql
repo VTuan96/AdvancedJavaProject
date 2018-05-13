@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th5 13, 2018 lúc 11:08 AM
+-- Thời gian đã tạo: Th5 13, 2018 lúc 11:12 AM
 -- Phiên bản máy phục vụ: 10.1.31-MariaDB
 -- Phiên bản PHP: 7.2.3
 
@@ -21,6 +21,70 @@ SET time_zone = "+00:00";
 --
 -- Cơ sở dữ liệu: `dbcuahangdientu`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `tbchitiethoadon`
+--
+
+CREATE TABLE `tbchitiethoadon` (
+  `Id_chi_tiet_hoa_don` int(11) NOT NULL,
+  `So_luong` int(11) NOT NULL,
+  `Linh_kien_Id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `tbdonvi`
+--
+
+CREATE TABLE `tbdonvi` (
+  `Id_don_vi` int(11) NOT NULL,
+  `Ten_don_vi` varchar(20) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `tbgialinhkien`
+--
+
+CREATE TABLE `tbgialinhkien` (
+  `Id_gia_linh_kien` int(11) NOT NULL,
+  `Gia_nhap` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `Gia_ban` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `Ngay_nhap` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
+  `Id_don_vi` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `tbhoadon`
+--
+
+CREATE TABLE `tbhoadon` (
+  `Id_hoa_don` int(11) NOT NULL,
+  `Ngay_nhap` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
+  `Khach_hang_Id` int(11) NOT NULL,
+  `Chi_tiet_hoa_don_Id` int(11) NOT NULL,
+  `Tong_tien` varchar(50) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `tbkhachhang`
+--
+
+CREATE TABLE `tbkhachhang` (
+  `Id_khach_hang` int(11) NOT NULL,
+  `Ten_khach_hang` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `Dia_chi` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `So_dien_thoai` varchar(20) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -77,6 +141,17 @@ INSERT INTO `tbloailinhkien` (`Id_loai_linh_kien`, `Ten_loai_linh_kien`, `Id_loa
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `tbloaisanpham`
+--
+
+CREATE TABLE `tbloaisanpham` (
+  `Id_loai_san_pham` int(11) NOT NULL,
+  `Ten_loai_san_pham` varchar(150) CHARACTER SET utf32 COLLATE utf32_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `tbnguoidung`
 --
 
@@ -124,6 +199,36 @@ INSERT INTO `tbvitrilinhkien` (`Id_vi_tri_linh_kien`, `Ten_vi_tri_linh_kien`) VA
 --
 
 --
+-- Chỉ mục cho bảng `tbchitiethoadon`
+--
+ALTER TABLE `tbchitiethoadon`
+  ADD PRIMARY KEY (`Id_chi_tiet_hoa_don`);
+
+--
+-- Chỉ mục cho bảng `tbdonvi`
+--
+ALTER TABLE `tbdonvi`
+  ADD PRIMARY KEY (`Id_don_vi`);
+
+--
+-- Chỉ mục cho bảng `tbgialinhkien`
+--
+ALTER TABLE `tbgialinhkien`
+  ADD PRIMARY KEY (`Id_gia_linh_kien`);
+
+--
+-- Chỉ mục cho bảng `tbhoadon`
+--
+ALTER TABLE `tbhoadon`
+  ADD PRIMARY KEY (`Id_hoa_don`);
+
+--
+-- Chỉ mục cho bảng `tbkhachhang`
+--
+ALTER TABLE `tbkhachhang`
+  ADD PRIMARY KEY (`Id_khach_hang`);
+
+--
 -- Chỉ mục cho bảng `tblinhkien`
 --
 ALTER TABLE `tblinhkien`
@@ -134,6 +239,12 @@ ALTER TABLE `tblinhkien`
 --
 ALTER TABLE `tbloailinhkien`
   ADD PRIMARY KEY (`Id_loai_linh_kien`);
+
+--
+-- Chỉ mục cho bảng `tbloaisanpham`
+--
+ALTER TABLE `tbloaisanpham`
+  ADD PRIMARY KEY (`Id_loai_san_pham`);
 
 --
 -- Chỉ mục cho bảng `tbnguoidung`
@@ -152,6 +263,36 @@ ALTER TABLE `tbvitrilinhkien`
 --
 
 --
+-- AUTO_INCREMENT cho bảng `tbchitiethoadon`
+--
+ALTER TABLE `tbchitiethoadon`
+  MODIFY `Id_chi_tiet_hoa_don` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT cho bảng `tbdonvi`
+--
+ALTER TABLE `tbdonvi`
+  MODIFY `Id_don_vi` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT cho bảng `tbgialinhkien`
+--
+ALTER TABLE `tbgialinhkien`
+  MODIFY `Id_gia_linh_kien` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT cho bảng `tbhoadon`
+--
+ALTER TABLE `tbhoadon`
+  MODIFY `Id_hoa_don` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT cho bảng `tbkhachhang`
+--
+ALTER TABLE `tbkhachhang`
+  MODIFY `Id_khach_hang` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT cho bảng `tblinhkien`
 --
 ALTER TABLE `tblinhkien`
@@ -162,6 +303,12 @@ ALTER TABLE `tblinhkien`
 --
 ALTER TABLE `tbloailinhkien`
   MODIFY `Id_loai_linh_kien` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+
+--
+-- AUTO_INCREMENT cho bảng `tbloaisanpham`
+--
+ALTER TABLE `tbloaisanpham`
+  MODIFY `Id_loai_san_pham` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT cho bảng `tbvitrilinhkien`
