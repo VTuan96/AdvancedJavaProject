@@ -23,6 +23,7 @@ public class DbLoaiLinhKien {
     public String TbLoaiLinhKien="TbLoaiLinhKien";
     public String Ten_loai_linh_kien="Ten_loai_linh_kien";
     public String Id_loai_linh_kien="Id_loai_linh_kien";
+    public String Id_loai_san_pham = "Id_loai_san_pham";
     
     public DbLoaiLinhKien() {
         db=new CreateDb();
@@ -39,7 +40,8 @@ public class DbLoaiLinhKien {
     public boolean insertLoaiLinhKien(LoaiLinhKien llk){
         boolean res=true;
         String query="Insert into " + TbLoaiLinhKien + "(" + Id_loai_linh_kien + ", " +
-                Ten_loai_linh_kien + ") values" + " ( null" + ", '" + llk.getTenLoaiLinhKien() + "')";
+                Ten_loai_linh_kien + ", " + Id_loai_san_pham +") values" + " ( null" + ", '" 
+                + llk.getTenLoaiLinhKien() + "', '" + llk.getIdLoaiSanPham()+"')";
         System.out.println(query);
         
         try {
@@ -65,9 +67,30 @@ public class DbLoaiLinhKien {
         try{
             result=db.getStatement().executeQuery(query);
             while(result.next()){
-                int id=result.getInt(Id_loai_linh_kien);
+                int idLLK=result.getInt(Id_loai_linh_kien);
                 String ten=result.getString(Ten_loai_linh_kien);
-                LoaiLinhKien lk=new LoaiLinhKien(id,ten);
+                int idLSP = result.getInt(Id_loai_san_pham);
+                LoaiLinhKien lk=new LoaiLinhKien(idLLK,ten,idLSP);
+                mList.add(lk);
+            }
+            
+        } catch (SQLException ex){
+            ex.printStackTrace();
+        }
+        
+        return mList;
+    }
+    
+    public ArrayList<LoaiLinhKien> getListLoaiLinhKienByLoaiSP(String lsp){
+        ArrayList<LoaiLinhKien> mList=new ArrayList();
+        int idLSP = new DbLoaiSanPham().getIdByName(lsp);
+        String query="Select * from " + TbLoaiLinhKien + " where "+ Id_loai_san_pham + " = "+ "' " +idLSP +" '";
+        try{
+            result=db.getStatement().executeQuery(query);
+            while(result.next()){
+                int idLLK=result.getInt(Id_loai_linh_kien);
+                String ten=result.getString(Ten_loai_linh_kien);
+                LoaiLinhKien lk=new LoaiLinhKien(idLLK,ten,idLSP);
                 mList.add(lk);
             }
             

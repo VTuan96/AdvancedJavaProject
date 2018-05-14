@@ -23,23 +23,20 @@ public class DbLinhKien {
     public String Id_linh_kien="Id_linh_kien";
     public String Ten_linh_kien="Ten_linh_kien";
     public String Hinh_anh="Hinh_anh";
-    public String Ngay_nhap="Ngay_nhap";
-    public String Gia_ban="Gia_ban";
-    public String Gia_nhap="Gia_nhap";
     public String Loai_linh_kien_id="Loai_linh_kien_id";
     public String Vi_tri_linh_kien_id="Vi_tri_linh_kien_id";
-    
+//    public String Id_gia_linh_kien = "Id_gia_linh_kien";
     
     public DbLinhKien() {
         db=new CreateDb();
     }
     
-    public boolean insertViTriLinhKien(LinhKien lk){
+    public boolean insertLinhKien(LinhKien lk){
         boolean res=true;
         String query="INSERT INTO `tblinhkien` (`" + Id_linh_kien + "`, `" + Ten_linh_kien +"`, `"+ Hinh_anh+
-                "`, `"+ Ngay_nhap+ "`, `"+  Gia_nhap +"`, `" + Gia_ban+ "`, `" +Loai_linh_kien_id + "`, `" + Vi_tri_linh_kien_id+
-                "`) VALUES (NULL, '" + lk.getTenLinhKien()+ "', '" + lk.getHinhAnh() + "', '" + lk.getNgayNhap()+ "', '" +lk.getGiaNhap() +
-                "', '" + lk.getGiaBan() + "', '" + lk.getLoaiLinhKienId() + "', '" +  lk.getViTriLinhKienId() + "')";
+                "`, `"+ Loai_linh_kien_id + "`, `" + Vi_tri_linh_kien_id+
+                "`) VALUES (NULL, '" + lk.getTenLinhKien()+ "', '" + lk.getHinhAnh() + "', '" + 
+                lk.getLoaiLinhKienId() + "', '" +  lk.getViTriLinhKienId() + "')";
         System.out.println(query);
         try {
             //excute() function true if the first result is a ResultSet object;
@@ -62,12 +59,10 @@ public class DbLinhKien {
                 int id=result.getInt(Id_linh_kien);
                 String tenLK=result.getString(Ten_linh_kien);
                 String hinhAnh=result.getString(Hinh_anh);
-                String ngayNhap=result.getString(Ngay_nhap);
-                String giaNhap=result.getString(Gia_nhap);
-                String giaBan = result.getString(Gia_ban);
                 int idLLK=result.getInt(Loai_linh_kien_id);
                 int idVTLK= result.getInt(Vi_tri_linh_kien_id);
-                LinhKien lk=new LinhKien(id, tenLK, hinhAnh, ngayNhap, giaNhap, giaBan, idLLK, idVTLK);
+//                int idLSP = result.getInt(Id_gia_linh_kien);
+                LinhKien lk=new LinhKien(id, tenLK, hinhAnh, idLLK, idVTLK);
                 
                 mList.add(lk);
             }
@@ -90,12 +85,10 @@ public class DbLinhKien {
                 int id=result.getInt(Id_linh_kien);
                 String tenLK=result.getString(Ten_linh_kien);
                 String hinhAnh=result.getString(Hinh_anh);
-                String ngayNhap=result.getString(Ngay_nhap);
-                String giaNhap=result.getString(Gia_nhap);
-                String giaBan = result.getString(Gia_ban);
                 int idLLK=result.getInt(Loai_linh_kien_id);
                 int idVTLK= result.getInt(Vi_tri_linh_kien_id);
-                LinhKien lk=new LinhKien(id, tenLK, hinhAnh, ngayNhap, giaNhap, giaBan, idLLK, idVTLK);
+//                int idLSP = result.getInt(Id_gia_linh_kien);
+                LinhKien lk=new LinhKien(id, tenLK, hinhAnh, idLLK, idVTLK);
                 
                 mList.add(lk);
             }
@@ -118,12 +111,10 @@ public class DbLinhKien {
                 int id=result.getInt(Id_linh_kien);
                 String tenLK=result.getString(Ten_linh_kien);
                 String hinhAnh=result.getString(Hinh_anh);
-                String ngayNhap=result.getString(Ngay_nhap);
-                String giaNhap=result.getString(Gia_nhap);
-                String giaBan = result.getString(Gia_ban);
                 int idLLK=result.getInt(Loai_linh_kien_id);
                 int idVTLK= result.getInt(Vi_tri_linh_kien_id);
-                LinhKien lk=new LinhKien(id, tenLK, hinhAnh, ngayNhap, giaNhap, giaBan, idLLK, idVTLK);
+//                int idLSP = result.getInt(Id_gia_linh_kien);
+                LinhKien lk=new LinhKien(id, tenLK, hinhAnh, idLLK, idVTLK);
                 
                 mList.add(lk);
             }
@@ -133,5 +124,61 @@ public class DbLinhKien {
         }
         
         return mList;
+    }
+    
+    public int getIdLinhKien(String tenLK, int idLLK, int vtlk){
+        int res=0;
+        String query="Select * from "+ TbLinhKien + " WHERE " + Ten_linh_kien + 
+                " LIKE '" + tenLK + "' AND "+ Loai_linh_kien_id + " = " +idLLK 
+                +" AND "+ Vi_tri_linh_kien_id + " = " +vtlk;
+        System.out.println(query);
+        try{
+            result=db.getStatement().executeQuery(query);
+            while(result.next()){
+                res=result.getInt(Id_linh_kien);
+            }
+            
+        } catch (SQLException ex){
+            ex.printStackTrace();
+        }
+        
+        return res;
+    }
+    
+    //lay linh kien theo id linh kien
+    public LinhKien getLinhKien(int id){
+        LinhKien res = new LinhKien();
+        String query="Select * from "+TbLinhKien + " where "+Id_linh_kien+ "= '"+id+" '";
+        try{
+            result=db.getStatement().executeQuery(query);
+            while(result.next()){
+                String tenLK=result.getString(Ten_linh_kien);
+                String hinhAnh=result.getString(Hinh_anh);
+                int idLLK=result.getInt(Loai_linh_kien_id);
+                int idVTLK= result.getInt(Vi_tri_linh_kien_id);
+                res = new LinhKien(id, tenLK, hinhAnh, idLLK, idVTLK);
+            }
+            System.out.println(query);
+        } catch (SQLException ex){
+            ex.printStackTrace();
+        }
+        
+        return res;
+    }
+    
+    public String getNameById(int id){
+        String res="";
+        String query="Select * from "+TbLinhKien + " where "+Id_linh_kien+ "= '"+id+" '";
+        try{
+            result=db.getStatement().executeQuery(query);
+            while(result.next()){
+                res=result.getString(Ten_linh_kien);
+            }
+            System.out.println(query);
+        } catch (SQLException ex){
+            ex.printStackTrace();
+        }
+        
+        return res;
     }
 }

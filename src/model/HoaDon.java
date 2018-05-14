@@ -5,6 +5,8 @@
  */
 package model;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author dtvta
@@ -13,28 +15,25 @@ public class HoaDon {
     private int idHoaDon;
     private String ngayNhap;
     private int khachHangId;
-    private int chiTietHoaDonId;
+    private ArrayList<Integer> chiTietHoaDonId;
     private String tongTien;
 
-    public HoaDon(int idHoaDon, String ngayNhap, int khachHangId, int chiTietHoaDonId) {
-        this.idHoaDon = idHoaDon;
-        this.ngayNhap = ngayNhap;
-        this.khachHangId = khachHangId;
-        this.chiTietHoaDonId = chiTietHoaDonId;
-    }
-
-    public HoaDon(int idHoaDon, String ngayNhap, int khachHangId, int chiTietHoaDonId, String tongTien) {
+    public HoaDon(int idHoaDon, String ngayNhap, int khachHangId, ArrayList<Integer> chiTietHoaDonId, String tongTien) {
         this.idHoaDon = idHoaDon;
         this.ngayNhap = ngayNhap;
         this.khachHangId = khachHangId;
         this.chiTietHoaDonId = chiTietHoaDonId;
         this.tongTien = tongTien;
     }
-    
 
-    public HoaDon() {
+    public HoaDon(String ngayNhap, int khachHangId, ArrayList<Integer> chiTietHoaDonId, String tongTien) {
+        this.ngayNhap = ngayNhap;
+        this.khachHangId = khachHangId;
+        this.chiTietHoaDonId = chiTietHoaDonId;
+        this.tongTien = tongTien;
     }
 
+    
     public int getIdHoaDon() {
         return idHoaDon;
     }
@@ -67,12 +66,14 @@ public class HoaDon {
         this.khachHangId = khachHangId;
     }
 
-    public int getChiTietHoaDonId() {
+    public ArrayList<Integer> getChiTietHoaDonId() {
         return chiTietHoaDonId;
     }
 
-    public void setChiTietHoaDonId(int chiTietHoaDonId) {
+    public void setChiTietHoaDonId(ArrayList<Integer> chiTietHoaDonId) {
         this.chiTietHoaDonId = chiTietHoaDonId;
     }
+    
+  
     
 }

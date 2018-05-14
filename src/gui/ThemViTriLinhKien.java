@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import model.LoaiLinhKien;
 import model.ViTriLinhKien;
+import ultilities.Contants;
 import ultilities.TableModelCustom;
 
 /**
@@ -30,6 +31,8 @@ public class ThemViTriLinhKien extends javax.swing.JFrame {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         
         new TableModelCustom().showTableLoaiLinhKien(column, tbViTriLinhKien);
+        
+        
     }
 
    

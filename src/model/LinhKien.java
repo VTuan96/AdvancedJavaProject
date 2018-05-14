@@ -13,55 +13,43 @@ public class LinhKien {
     private int idLinhKien;
     private String tenLinhKien;
     private String hinhAnh;
-    private String ngayNhap;
-    private String giaNhap;
-    private String giaBan;
     private int loaiLinhKienId;
     private int viTriLinhKienId;
+//    private int idGiaLinhKien;
 
-    public LinhKien(int idLinhKien, String tenLinhKien, String hinhAnh, String ngayNhap, String giaNhap, String giaBan, int loaiLinhKienId, int viTriLinhKienId) {
+//    public LinhKien(int idLinhKien, String tenLinhKien, String hinhAnh, int loaiLinhKienId, int viTriLinhKienId, int idGiaLinhKien) {
+//        this.idLinhKien = idLinhKien;
+//        this.tenLinhKien = tenLinhKien;
+//        this.hinhAnh = hinhAnh;
+//        this.loaiLinhKienId = loaiLinhKienId;
+//        this.viTriLinhKienId = viTriLinhKienId;
+//        this.idGiaLinhKien = idGiaLinhKien;
+//    }
+//
+//    public LinhKien(String tenLinhKien, String hinhAnh, int loaiLinhKienId, int viTriLinhKienId, int idGiaLinhKien) {
+//        this.tenLinhKien = tenLinhKien;
+//        this.hinhAnh = hinhAnh;
+//        this.loaiLinhKienId = loaiLinhKienId;
+//        this.viTriLinhKienId = viTriLinhKienId;
+//        this.idGiaLinhKien = idGiaLinhKien;
+//    }
+
+    public LinhKien(int idLinhKien, String tenLinhKien, String hinhAnh, int loaiLinhKienId, int viTriLinhKienId) {
         this.idLinhKien = idLinhKien;
         this.tenLinhKien = tenLinhKien;
         this.hinhAnh = hinhAnh;
-        this.ngayNhap = ngayNhap;
-        this.giaNhap = giaNhap;
-        this.giaBan = giaBan;
-        this.loaiLinhKienId = loaiLinhKienId;
-        this.viTriLinhKienId = viTriLinhKienId;
-    }
-    
-    
-
-    public LinhKien(int idLinhKien, String hinhAnh, String ngayNhap, String giaNhap, String giaBan, int loaiLinhKienId, int viTriLinhKienId) {
-        this.idLinhKien = idLinhKien;
-        this.hinhAnh = hinhAnh;
-        this.ngayNhap = ngayNhap;
-        this.giaNhap = giaNhap;
-        this.giaBan = giaBan;
         this.loaiLinhKienId = loaiLinhKienId;
         this.viTriLinhKienId = viTriLinhKienId;
     }
 
-    public LinhKien(String tenLinhKien, String hinhAnh, String ngayNhap, String giaNhap, String giaBan, int loaiLinhKienId, int viTriLinhKienId) {
+    public LinhKien(String tenLinhKien, String hinhAnh, int loaiLinhKienId, int viTriLinhKienId) {
         this.tenLinhKien = tenLinhKien;
         this.hinhAnh = hinhAnh;
-        this.ngayNhap = ngayNhap;
-        this.giaNhap = giaNhap;
-        this.giaBan = giaBan;
         this.loaiLinhKienId = loaiLinhKienId;
         this.viTriLinhKienId = viTriLinhKienId;
     }
     
     
-
-    public LinhKien(String hinhAnh, String ngayNhap, String giaNhap, String giaBan, int loaiLinhKienId, int viTriLinhKienId) {
-        this.hinhAnh = hinhAnh;
-        this.ngayNhap = ngayNhap;
-        this.giaNhap = giaNhap;
-        this.giaBan = giaBan;
-        this.loaiLinhKienId = loaiLinhKienId;
-        this.viTriLinhKienId = viTriLinhKienId;
-    }
 
     public LinhKien() {
     }
@@ -90,29 +78,13 @@ public class LinhKien {
         this.hinhAnh = hinhAnh;
     }
 
-    public String getNgayNhap() {
-        return ngayNhap;
-    }
-
-    public void setNgayNhap(String ngayNhap) {
-        this.ngayNhap = ngayNhap;
-    }
-
-    public String getGiaNhap() {
-        return giaNhap;
-    }
-
-    public void setGiaNhap(String giaNhap) {
-        this.giaNhap = giaNhap;
-    }
-
-    public String getGiaBan() {
-        return giaBan;
-    }
-
-    public void setGiaBan(String giaBan) {
-        this.giaBan = giaBan;
-    }
+//    public int getIdGiaLinhKien() {
+//        return idGiaLinhKien;
+//    }
+//
+//    public void setIdGiaLinhKien(int idGiaLinhKien) {
+//        this.idGiaLinhKien = idGiaLinhKien;
+//    }
 
     public int getLoaiLinhKienId() {
         return loaiLinhKienId;
