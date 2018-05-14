@@ -22,11 +22,21 @@ public class Contants {
     public static String columnLK[]={"ID", "Tên linh kiện", "Hình ảnh", "Ngày nhập", "Giá nhập",
                             "Giá bán", "Đơn vị", "Loại linh kiện", "Vị trí linh kiện"};
     
-    public static String TEN_DON_VI = " Tên đơn vị";
-    public static String TEN_LOAI_SAN_PHAM = " Tên loại sản phẩm";
-    public static String TEN_LOAI_LINH_KIEN = " Tên loại linh kiện";
-    public static String TEN_VI_TRI_LINH_KIEN = " Tên vị trí linh kiện";
+    public static String TEN_DON_VI = "Tên đơn vị";
+    public static String TEN_LOAI_SAN_PHAM = "Tên loại sản phẩm";
+    public static String TEN_LOAI_LINH_KIEN = "Tên loại linh kiện";
+    public static String TEN_VI_TRI_LINH_KIEN = "Tên vị trí linh kiện";
+    public static String TEN_LINH_KIEN = "Tên linh kiện";
     
     public static String INSERT_SUCCESS = " INSERT SUCCESS!";
     public static String INSERT_FAIL = " INSERT FAIL!";
+    
+    public static String UPDATE_FAIL = " UPDATE FAIL";
+    public static String UPDATE_SUCCESS = " UPDATE SUCCESS";
+    
+    public static String DELETE_SUCCESS = " DELETE SUCCESS";
+    public static String DELETE_FAIL = " DELETE FAIL";
+    
+    public static String ERROR_FULL_FIELD = " Bạn cần nhập đủ thông tin các trường! ";
+    
 }

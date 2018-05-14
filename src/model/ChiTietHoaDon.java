@@ -12,13 +12,22 @@ package model;
 public class ChiTietHoaDon {
     private int idChiTietHoaDon;
     private int soLuong;
-    private int linhKienId;
+    private int giaLinhKienId;
+    private int hoaDonId;
 
-    public ChiTietHoaDon(int idChiTietHoaDon, int soLuong, int linhKienId) {
+    public ChiTietHoaDon(int idChiTietHoaDon, int soLuong, int giaLinhKienId, int hoaDonId) {
         this.idChiTietHoaDon = idChiTietHoaDon;
         this.soLuong = soLuong;
-        this.linhKienId = linhKienId;
+        this.giaLinhKienId = giaLinhKienId;
+        this.hoaDonId = hoaDonId;
     }
+
+    public ChiTietHoaDon(int soLuong, int giaLinhKienId, int hoaDonId) {
+        this.soLuong = soLuong;
+        this.giaLinhKienId = giaLinhKienId;
+        this.hoaDonId = hoaDonId;
+    }
+
 
     public ChiTietHoaDon() {
     }
@@ -39,12 +48,19 @@ public class ChiTietHoaDon {
         this.soLuong = soLuong;
     }
 
-    public int getLinhKienId() {
-        return linhKienId;
+    public int getGiaLinhKienId() {
+        return giaLinhKienId;
     }
 
-    public void setLinhKienId(int linhKienId) {
-        this.linhKienId = linhKienId;
+    public void setGiaLinhKienId(int giaLinhKienId) {
+        this.giaLinhKienId = giaLinhKienId;
     }
-    
+
+    public int getHoaDonId() {
+        return hoaDonId;
+    }
+
+    public void setHoaDonId(int hoaDonId) {
+        this.hoaDonId = hoaDonId;
+    }
 }

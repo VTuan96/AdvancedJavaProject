@@ -15,21 +15,24 @@ public class HoaDon {
     private int idHoaDon;
     private String ngayNhap;
     private int khachHangId;
-    private ArrayList<Integer> chiTietHoaDonId;
     private String tongTien;
 
-    public HoaDon(int idHoaDon, String ngayNhap, int khachHangId, ArrayList<Integer> chiTietHoaDonId, String tongTien) {
+    public HoaDon(int idHoaDon, String ngayNhap, int khachHangId, String tongTien) {
         this.idHoaDon = idHoaDon;
         this.ngayNhap = ngayNhap;
         this.khachHangId = khachHangId;
-        this.chiTietHoaDonId = chiTietHoaDonId;
         this.tongTien = tongTien;
     }
 
-    public HoaDon(String ngayNhap, int khachHangId, ArrayList<Integer> chiTietHoaDonId, String tongTien) {
+    public HoaDon(String ngayNhap, int khachHangId) {
         this.ngayNhap = ngayNhap;
         this.khachHangId = khachHangId;
-        this.chiTietHoaDonId = chiTietHoaDonId;
+    }
+    
+
+    public HoaDon(String ngayNhap, int khachHangId, String tongTien) {
+        this.ngayNhap = ngayNhap;
+        this.khachHangId = khachHangId;
         this.tongTien = tongTien;
     }
 
@@ -66,14 +69,5 @@ public class HoaDon {
         this.khachHangId = khachHangId;
     }
 
-    public ArrayList<Integer> getChiTietHoaDonId() {
-        return chiTietHoaDonId;
-    }
 
-    public void setChiTietHoaDonId(ArrayList<Integer> chiTietHoaDonId) {
-        this.chiTietHoaDonId = chiTietHoaDonId;
-    }
-    
-  
-    
 }

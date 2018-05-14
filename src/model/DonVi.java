@@ -13,6 +13,9 @@ public class DonVi {
     private int idDonVi;
     private String tenDonVi;
 
+    public DonVi() {
+    }
+
     public DonVi(int idDonVi, String tenDonVi) {
         this.idDonVi = idDonVi;
         this.tenDonVi = tenDonVi;

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.GiaLinhKien;
+import model.LinhKien;
 import model.LoaiSanPham;
 
 /**
@@ -50,6 +51,34 @@ public class DbGiaLinhKien {
         }
         
         return res; 
+    }
+    
+    public int updateGiaLinhKien(GiaLinhKien glk){
+        int res = -1;
+        String query = "UPDATE " + TbGiaLinhKien + " SET " + Ngay_nhap + " = '" + glk.getNgayNhap()
+                + "' , " + Gia_nhap + " = '"+ glk.getGiaNhap()+ "' , " + Gia_ban + "  = '" + 
+                glk.getGiaBan()+ "' , " + Id_don_vi + " = '"+ glk.getIdDonVi() + "', "+ Id_linh_kien +
+                " = '" + glk.getIdLinhKien() + "' WHERE "+ Id_gia_linh_kien + " = '"+ glk.getIdGiaLinhKien()+ "'";
+        System.out.println(query);
+        try {
+            res = db.getStatement().executeUpdate(query);
+        } catch (SQLException ex) {
+            Logger.getLogger(DbLinhKien.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return res;
+    }
+    
+    public int deleteGiaLinhKien(GiaLinhKien glk){
+        int res = -1;
+        String query = "DELETE FROM " + TbGiaLinhKien + " WHERE " + Id_gia_linh_kien + " = " + glk.getIdGiaLinhKien();
+        try {
+            res = db.getStatement().executeUpdate(query);
+        } catch (SQLException ex) {
+            Logger.getLogger(DbLinhKien.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return res;
     }
     
     //get list Gia linh kien in db

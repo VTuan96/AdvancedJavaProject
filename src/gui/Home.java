@@ -62,7 +62,10 @@ public class Home extends javax.swing.JFrame {
     private String loaiSP = "";
     
     private String search = "";
-
+    
+    private LinhKien selectionLK = new LinhKien();
+    private GiaLinhKien selectionGLK = new GiaLinhKien();
+    private String ngayNhap = "";
     
     /**
      * Creates new form Home
@@ -72,6 +75,14 @@ public class Home extends javax.swing.JFrame {
         
         setLocationRelativeTo(null);
         setupDataForAllCombobox();
+        
+        cbSearch.addItem(Contants.TEN_LINH_KIEN);
+        cbSearch.addItem(Contants.TEN_LOAI_LINH_KIEN);
+        
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat format=new SimpleDateFormat("yyy/MM/dd");
+        Date date = cal.getTime();
+        ngayNhap=format.format(date).toString();
         
         loaiSP = cbLoaiSanPham.getSelectedItem().toString();
         
@@ -96,37 +107,42 @@ public class Home extends javax.swing.JFrame {
         tbLinhKien.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                int idLK = (int) tbLinhKien.getValueAt(tbLinhKien.getSelectedRow(), 0);
-                String tenLK = tbLinhKien.getValueAt(tbLinhKien.getSelectedRow(), 1).toString();
-                String hinhAnh = tbLinhKien.getValueAt(tbLinhKien.getSelectedRow(), 2).toString();
-                String ngayNhap = tbLinhKien.getValueAt(tbLinhKien.getSelectedRow(), 3).toString();
-                String giaNhap = tbLinhKien.getValueAt(tbLinhKien.getSelectedRow(), 4).toString();
-                String giaBan = tbLinhKien.getValueAt(tbLinhKien.getSelectedRow(), 5).toString();
-                String donVi = tbLinhKien.getValueAt(tbLinhKien.getSelectedRow(), 6).toString();
-                String loaiLK = tbLinhKien.getValueAt(tbLinhKien.getSelectedRow(), 7).toString();
-                String viTriLK = tbLinhKien.getValueAt(tbLinhKien.getSelectedRow(), 8).toString();
-                
-                txtTenLinhKien.setText(tenLK);
-                txtGiaBan.setText(giaBan);
-                txtGiaNhap.setText(giaNhap);
-                txtHinhAnh.setText(hinhAnh);
-                
-                cbDonVi.setSelectedItem(donVi);
-                cbLoaiLinhKien.setSelectedItem(loaiLK);
-                cbViTriLinhKien.setSelectedItem(viTriLK);
-                
-                System.err.println(hinhAnh);
-                
-                try{
-                    File file = new File(hinhAnh);
-                    BufferedImage buff=ImageIO.read(file);
-                    BufferedImage img=new ImageProcess(buff).resizeImage(buff,lblHinhAnh.getWidth(), lblHinhAnh.getHeight());
+                if (tbLinhKien.getModel().getRowCount() > 0 ){
+                    int idLK = (int) tbLinhKien.getValueAt(tbLinhKien.getSelectedRow(), 0);
+                    String tenLK = tbLinhKien.getValueAt(tbLinhKien.getSelectedRow(), 1).toString();
+                    String hinhAnh = tbLinhKien.getValueAt(tbLinhKien.getSelectedRow(), 2).toString();
+                    String ngayNhap = tbLinhKien.getValueAt(tbLinhKien.getSelectedRow(), 3).toString();
+                    String giaNhap = tbLinhKien.getValueAt(tbLinhKien.getSelectedRow(), 4).toString();
+                    String giaBan = tbLinhKien.getValueAt(tbLinhKien.getSelectedRow(), 5).toString();
+                    String donVi = tbLinhKien.getValueAt(tbLinhKien.getSelectedRow(), 6).toString();
+                    String loaiLK = tbLinhKien.getValueAt(tbLinhKien.getSelectedRow(), 7).toString();
+                    String viTriLK = tbLinhKien.getValueAt(tbLinhKien.getSelectedRow(), 8).toString();
 
-                    lblHinhAnh.setIcon(new ImageIcon(img));
-                } catch (Exception ex){
-                    ex.printStackTrace();
-                }
-                
+                    int idLLK = new DbLoaiLinhKien().getIdByName(loaiLK);
+                    int idVTLK = new DbViTriLinhKien().getIdByName(viTriLK);
+
+                    selectionLK = new LinhKien(idLK, tenLK, hinhAnh, idLLK, idVTLK);
+                    selectionGLK = new DbGiaLinhKien().getGiaLinhKien(idLK);
+
+                    txtTenLinhKien.setText(tenLK);
+                    txtGiaBan.setText(giaBan);
+                    txtGiaNhap.setText(giaNhap);
+                    txtHinhAnh.setText(hinhAnh);
+
+                    cbDonVi.setSelectedItem(donVi);
+                    cbLoaiLinhKien.setSelectedItem(loaiLK);
+                    cbViTriLinhKien.setSelectedItem(viTriLK);
+
+                    try{
+                        File file = new File(hinhAnh);
+                        BufferedImage buff=ImageIO.read(file);
+                        BufferedImage img=new ImageProcess(buff).resizeImage(buff,lblHinhAnh.getWidth(), lblHinhAnh.getHeight());
+
+                        lblHinhAnh.setIcon(new ImageIcon(img));
+                    } catch (Exception ex){
+                        ex.printStackTrace();
+                    }
+                }   
             }
         });
         
@@ -283,8 +299,8 @@ public class Home extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tbLinhKien = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
+        cbSearch = new javax.swing.JComboBox<>();
         jMenuBar1 = new javax.swing.JMenuBar();
-        mnuTrangChu = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
         mnuThemLoaiLinhKien = new javax.swing.JMenuItem();
         mnuThemViTriLinhKien = new javax.swing.JMenuItem();
@@ -351,10 +367,20 @@ public class Home extends javax.swing.JFrame {
         btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_edit.png"))); // NOI18N
         btnEdit.setText("Cập nhật");
         btnEdit.setIconTextGap(10);
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
 
         btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_delete.png"))); // NOI18N
         btnDelete.setText("Xóa");
         btnDelete.setIconTextGap(10);
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Giá nhập");
         jLabel3.setPreferredSize(new java.awt.Dimension(40, 15));
@@ -589,8 +615,10 @@ public class Home extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane1)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(txtSearch)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 1004, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(cbSearch, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
                         .addComponent(btnSearch)))
                 .addContainerGap())
         );
@@ -600,21 +628,14 @@ public class Home extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSearch))
+                    .addComponent(btnSearch)
+                    .addComponent(cbSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton1)
                 .addGap(92, 92, 92))
         );
-
-        mnuTrangChu.setText("Trang chủ");
-        mnuTrangChu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuTrangChuActionPerformed(evt);
-            }
-        });
-        jMenuBar1.add(mnuTrangChu);
 
         jMenu2.setText("Thêm");
 
@@ -673,6 +694,16 @@ public class Home extends javax.swing.JFrame {
         jMenuBar1.add(mnuSapXepTang);
 
         mnuTaoHoaDon.setText("Tạo hóa đơn");
+        mnuTaoHoaDon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mnuTaoHoaDonMouseClicked(evt);
+            }
+        });
+        mnuTaoHoaDon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuTaoHoaDonActionPerformed(evt);
+            }
+        });
         jMenuBar1.add(mnuTaoHoaDon);
 
         setJMenuBar(jMenuBar1);
@@ -702,16 +733,17 @@ public class Home extends javax.swing.JFrame {
 
     private void mnuSortDownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSortDownActionPerformed
         // TODO add your handling code here:
-//         ArrayList<GiaLinhKien> list=new ArrayList<>();
-//        list=new DbGiaLinhKien().getListGiaLinhKien();
-//        updateTable(list);
+        ArrayList<LinhKien> listLK = new ArrayList<>();
+        listLK = new DbLinhKien().getListLinhKienSortDown();
+        
+        ArrayList<GiaLinhKien> list=new ArrayList<>();
+        for (LinhKien lk : listLK ){
+            GiaLinhKien glk = new DbGiaLinhKien().getGiaLinhKien(lk.getIdLinhKien());
+            list.add(glk);
+        }
+        updateTable(list);
         
     }//GEN-LAST:event_mnuSortDownActionPerformed
-
-    private void mnuTrangChuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuTrangChuActionPerformed
-        // TODO add your handling code here:
-        this.setVisible(false);
-    }//GEN-LAST:event_mnuTrangChuActionPerformed
 
     private void mnuThemLoaiLinhKienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuThemLoaiLinhKienActionPerformed
         // TODO add your handling code here:
@@ -736,9 +768,15 @@ public class Home extends javax.swing.JFrame {
 
     private void mnuSortUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSortUpActionPerformed
         // TODO add your handling code here:
-        ArrayList<LinhKien> list=new ArrayList<>();
-        list=new DbLinhKien().getListLinhKienSortUp();
-//        updateTable(list);
+        ArrayList<LinhKien> listLK = new ArrayList<>();
+        listLK = new DbLinhKien().getListLinhKienSortUp();
+        
+        ArrayList<GiaLinhKien> list=new ArrayList<>();
+        for (LinhKien lk : listLK ){
+            GiaLinhKien glk = new DbGiaLinhKien().getGiaLinhKien(lk.getIdLinhKien());
+            list.add(glk);
+        }
+        updateTable(list);
     }//GEN-LAST:event_mnuSortUpActionPerformed
 
     private void txtTenLinhKienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTenLinhKienActionPerformed
@@ -758,11 +796,6 @@ public class Home extends javax.swing.JFrame {
         viTriLK = cbViTriLinhKien.getSelectedItem().toString();
         int idVTLK=new DbViTriLinhKien().getIdByName(viTriLK);
 
-        Calendar cal = Calendar.getInstance();
-        SimpleDateFormat format=new SimpleDateFormat("yyy/MM/dd");
-        Date date = cal.getTime();
-        String ngayNhap=format.format(date).toString();
-        
         String donVi = cbDonVi.getSelectedItem().toString();
         int idDV = new DbDonVi().getIdByName(donVi);
        
@@ -779,8 +812,9 @@ public class Home extends javax.swing.JFrame {
                     ThongBao thongBao = new ThongBao(Contants.INSERT_SUCCESS);
                     thongBao.show();
 
-                    //xoa het du lieu trong cac component
-                    clearAllField();
+                    //xoa het du lieu trong cac text component
+                    clearAllTextField();
+                    lblHinhAnh.setIcon(null);
 
                     //cap nhat lai bang linh kien
                     ArrayList<GiaLinhKien> list=new ArrayList<>();
@@ -805,9 +839,9 @@ public class Home extends javax.swing.JFrame {
             //lay duong dan link anh
             String pathFile = file.getAbsolutePath();
             urlHinhAnh = pathFile;
+            
             //thay the dau \ = dau \\\  ( 1 dau \ = 1 dau \\
             urlHinhAnh = urlHinhAnh.replace("\\" , "\\\\"  );
-//            System.err.println(urlHinhAnh);
             
             //luu link anh vao co so du lieu
             try {
@@ -836,7 +870,30 @@ public class Home extends javax.swing.JFrame {
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
+        ArrayList<GiaLinhKien> listGLK = new ArrayList<>();
         search = txtSearch.getText().toString();
+        String selectSearch = cbSearch.getSelectedItem().toString();
+
+        if (selectSearch.equals(Contants.TEN_LINH_KIEN)){
+            System.err.println(Contants.TEN_LINH_KIEN);
+            ArrayList<LinhKien> listLK = new DbLinhKien().getListLinhKien(search);
+            for (LinhKien item : listLK){
+                GiaLinhKien glk = new DbGiaLinhKien().getGiaLinhKien(item.getIdLinhKien());
+                listGLK.add(glk);
+            }
+            
+        } else if (selectSearch.equals(Contants.TEN_LOAI_LINH_KIEN)){
+            int idLLK = new DbLoaiLinhKien().getIdByName(search);
+            ArrayList<LinhKien> listLK = new DbLinhKien().getListLinhKien(idLLK);
+            for (LinhKien item : listLK){
+                GiaLinhKien glk = new DbGiaLinhKien().getGiaLinhKien(item.getIdLinhKien());
+                listGLK.add(glk);
+            }
+            System.err.println(Contants.TEN_LOAI_LINH_KIEN);
+        }
+        
+        
+        updateTable(listGLK);
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void cbDonViActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbDonViActionPerformed
@@ -864,23 +921,99 @@ public class Home extends javax.swing.JFrame {
         clearAllField();
         setupDataForAllCombobox();
         
+        //cap nhat lai bang linh kien
+        ArrayList<GiaLinhKien> list = new ArrayList<>();
+        list = new DbGiaLinhKien().getListGiaLinhKien();
+        updateTable(list);
+        
     }//GEN-LAST:event_btnRefreshActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        // TODO add your handling code here:
+        String tenLK = txtTenLinhKien.getText().toString();
+        String hinhAnh = txtHinhAnh.getText().toString();
+        hinhAnh = hinhAnh.replace("\\", "\\\\");
+        String viTriLK = cbViTriLinhKien.getSelectedItem().toString();
+        int idVTLK = new DbViTriLinhKien().getIdByName(viTriLK);
+        String loaiLK = cbLoaiLinhKien.getSelectedItem().toString();
+        int idLLK = new DbLoaiLinhKien().getIdByName(loaiLK);
+        int idLK = selectionLK.getIdLinhKien();
+        
+        String giaNhap = txtGiaNhap.getText().toString();
+        String giaBan = txtGiaBan.getText().toString();
+        String donVi = cbDonVi.getSelectedItem().toString();
+        int idDV = new DbDonVi().getIdByName(donVi);
+        String loaiSP = cbLoaiSanPham.getSelectedItem().toString();
+        int idLSP = new DbLoaiSanPham().getIdByName(loaiSP );
+        
+        selectionLK = new LinhKien(idLK, tenLK, hinhAnh, idLLK, idVTLK);
+        int res = new DbLinhKien().updateLinhKien(selectionLK);
+        if (res > 0 ){
+            int idGLK = selectionGLK.getIdGiaLinhKien();
+            selectionGLK = new GiaLinhKien(idGLK, giaNhap, giaBan,ngayNhap, idDV, idLK);
+            int res_final = new DbGiaLinhKien().updateGiaLinhKien(selectionGLK);
+            if (res_final > 0){
+                ThongBao thongBao = new ThongBao(Contants.UPDATE_SUCCESS);
+                thongBao.show();
+                
+                //cap nhat lai bang linh kien
+                ArrayList<GiaLinhKien> list = new ArrayList<>();
+                list = new DbGiaLinhKien().getListGiaLinhKien();
+                updateTable(list);
+            }
+        } else {
+            ThongBao thongBao = new ThongBao(Contants.UPDATE_FAIL);
+            thongBao.show();
+        }
+        
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // TODO add your handling code here:
+        int res = new DbLinhKien().deleteLinhKien(selectionLK);
+        if (res > 0 ){
+            int res_final = new DbGiaLinhKien().deleteGiaLinhKien(selectionGLK);
+            if (res_final > 0){
+                ThongBao thongBao = new ThongBao(Contants.DELETE_SUCCESS);
+                thongBao.show();
+                
+                //cap nhat lai bang linh kien
+                ArrayList<GiaLinhKien> list = new ArrayList<>();
+                list = new DbGiaLinhKien().getListGiaLinhKien();
+                updateTable(list);
+            }
+        } else {
+            ThongBao thongBao = new ThongBao(Contants.DELETE_FAIL);
+            thongBao.show();
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void mnuTaoHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuTaoHoaDonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mnuTaoHoaDonActionPerformed
+
+    private void mnuTaoHoaDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mnuTaoHoaDonMouseClicked
+        // TODO add your handling code here:
+//        this.setVisible(false);
+        TaoHoaDon taoHD = new TaoHoaDon();
+        taoHD.show();
+    }//GEN-LAST:event_mnuTaoHoaDonMouseClicked
     
-    private void clearAllField(){
+    private void clearAllTextField(){
         txtTenLinhKien.setText("");
         txtGiaBan.setText("");
         txtGiaNhap.setText("");
         txtHinhAnh.setText("");
+        txtSearch.setText("");
         txtTenLinhKien.requestFocus(true);
+    }
+    private void clearAllField(){
+        clearAllTextField();
         lblHinhAnh.setIcon(null);
         cbDonVi.removeAllItems();
         cbLoaiLinhKien.removeAllItems();
         cbLoaiSanPham.removeAllItems();
         cbViTriLinhKien.removeAllItems();
-//        cbDonVi.setSelectedIndex(0);
-////        cbLoaiLinhKien.setSelectedIndex(0);
-////        cbLoaiSanPham.setSelectedIndex(0);
-//        cbViTriLinhKien.setSelectedIndex(0);
     }
     
     /**
@@ -930,6 +1063,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cbDonVi;
     private javax.swing.JComboBox<String> cbLoaiLinhKien;
     private javax.swing.JComboBox<String> cbLoaiSanPham;
+    private javax.swing.JComboBox<String> cbSearch;
     private javax.swing.JComboBox<String> cbViTriLinhKien;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
@@ -958,7 +1092,6 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuThemLoaiLinhKien;
     private javax.swing.JMenuItem mnuThemLoaiSanPham;
     private javax.swing.JMenuItem mnuThemViTriLinhKien;
-    private javax.swing.JMenu mnuTrangChu;
     private javax.swing.JTable tbLinhKien;
     private javax.swing.JTextField txtGiaBan;
     private javax.swing.JTextField txtGiaNhap;

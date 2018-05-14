@@ -8,6 +8,8 @@ package databases;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.LinhKien;
 import model.LoaiLinhKien;
 import model.ViTriLinhKien;
@@ -49,6 +51,34 @@ public class DbLinhKien {
         return res; 
     }
     
+    public int updateLinhKien(LinhKien lk){
+        int res = -1;
+        String query = "UPDATE " + TbLinhKien + " SET " + Ten_linh_kien + " = '" + lk.getTenLinhKien()
+                + "' , " + Hinh_anh + " = '"+ lk.getHinhAnh() + "' , " + Loai_linh_kien_id + "  = '" + 
+                lk.getLoaiLinhKienId() + "' , " + Vi_tri_linh_kien_id + " = '"+ lk.getViTriLinhKienId() 
+                + "' WHERE "+ Id_linh_kien + " = '"+ lk.getIdLinhKien() + "'";
+        System.out.println(query);
+        try {
+            res = db.getStatement().executeUpdate(query);
+        } catch (SQLException ex) {
+            Logger.getLogger(DbLinhKien.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return res;
+    }
+    
+    public int deleteLinhKien(LinhKien lk){
+        int res = -1;
+        String query = "DELETE FROM " + TbLinhKien + " WHERE " + Id_linh_kien + " = " + lk.getIdLinhKien();
+        try {
+            res = db.getStatement().executeUpdate(query);
+        } catch (SQLException ex) {
+            Logger.getLogger(DbLinhKien.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return res;
+    }
+    
     //get list loai linh kien in db
     public ArrayList<LinhKien> getListLinhKien(){
         ArrayList<LinhKien> mList=new ArrayList();
@@ -74,6 +104,75 @@ public class DbLinhKien {
         return mList;
     }
     
+    public LinhKien getLinhKien(String name){
+        LinhKien lk = new LinhKien();
+        String query="Select * from "+TbLinhKien + " WHERE "+ Ten_linh_kien + " LIKE '" + name + "'";
+        System.err.println(query);
+        try{
+            result=db.getStatement().executeQuery(query);
+            while(result.next()){
+                int id=result.getInt(Id_linh_kien);
+                String tenLK= name;
+                String hinhAnh=result.getString(Hinh_anh);
+                int idLLK=result.getInt(Loai_linh_kien_id);
+                int idVTLK= result.getInt(Vi_tri_linh_kien_id);
+                lk=new LinhKien(id, tenLK, hinhAnh, idLLK, idVTLK);
+            }
+            
+        } catch (SQLException ex){
+            ex.printStackTrace();
+        }
+        return lk;
+    }
+    
+    public ArrayList<LinhKien> getListLinhKien(String name){
+        ArrayList<LinhKien> mList=new ArrayList();
+        String query="Select * from "+TbLinhKien + " WHERE "+ Ten_linh_kien + " LIKE '%" + name + "%'";
+        System.err.println(query);
+        try{
+            result=db.getStatement().executeQuery(query);
+            while(result.next()){
+                int id=result.getInt(Id_linh_kien);
+                String tenLK=result.getString(Ten_linh_kien);
+                String hinhAnh=result.getString(Hinh_anh);
+                int idLLK=result.getInt(Loai_linh_kien_id);
+                int idVTLK= result.getInt(Vi_tri_linh_kien_id);
+                LinhKien lk=new LinhKien(id, tenLK, hinhAnh, idLLK, idVTLK);
+                
+                mList.add(lk);
+            }
+            
+        } catch (SQLException ex){
+            ex.printStackTrace();
+        }
+        
+        return mList;
+    }
+    
+    public ArrayList<LinhKien> getListLinhKien(int idLLK){
+        ArrayList<LinhKien> mList=new ArrayList();
+        String query="Select * from "+TbLinhKien + " WHERE "+ Loai_linh_kien_id + " = '" + idLLK + "'";
+        System.err.println(query);
+        try{
+            result=db.getStatement().executeQuery(query);
+            while(result.next()){
+                int id=result.getInt(Id_linh_kien);
+                String tenLK=result.getString(Ten_linh_kien);
+                String hinhAnh=result.getString(Hinh_anh);
+//                int idLLK=result.getInt(Loai_linh_kien_id);
+                int idVTLK= result.getInt(Vi_tri_linh_kien_id);
+                LinhKien lk=new LinhKien(id, tenLK, hinhAnh, idLLK, idVTLK);
+                
+                mList.add(lk);
+            }
+            
+        } catch (SQLException ex){
+            ex.printStackTrace();
+        }
+        
+        return mList;
+    }
+    
     //lay list linh kien theo ten linh kien A-Z
     public ArrayList<LinhKien> getListLinhKienSortDown(){
         ArrayList<LinhKien> mList=new ArrayList();
@@ -87,7 +186,6 @@ public class DbLinhKien {
                 String hinhAnh=result.getString(Hinh_anh);
                 int idLLK=result.getInt(Loai_linh_kien_id);
                 int idVTLK= result.getInt(Vi_tri_linh_kien_id);
-//                int idLSP = result.getInt(Id_gia_linh_kien);
                 LinhKien lk=new LinhKien(id, tenLK, hinhAnh, idLLK, idVTLK);
                 
                 mList.add(lk);
@@ -113,7 +211,6 @@ public class DbLinhKien {
                 String hinhAnh=result.getString(Hinh_anh);
                 int idLLK=result.getInt(Loai_linh_kien_id);
                 int idVTLK= result.getInt(Vi_tri_linh_kien_id);
-//                int idLSP = result.getInt(Id_gia_linh_kien);
                 LinhKien lk=new LinhKien(id, tenLK, hinhAnh, idLLK, idVTLK);
                 
                 mList.add(lk);
