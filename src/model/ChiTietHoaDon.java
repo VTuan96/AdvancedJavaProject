@@ -13,21 +13,20 @@ public class ChiTietHoaDon {
     private int idChiTietHoaDon;
     private int soLuong;
     private int giaLinhKienId;
-    private int hoaDonId;
+    private String maHoaDon;
 
-    public ChiTietHoaDon(int idChiTietHoaDon, int soLuong, int giaLinhKienId, int hoaDonId) {
+    public ChiTietHoaDon(int idChiTietHoaDon, int soLuong, int giaLinhKienId, String maHoaDon) {
         this.idChiTietHoaDon = idChiTietHoaDon;
         this.soLuong = soLuong;
         this.giaLinhKienId = giaLinhKienId;
-        this.hoaDonId = hoaDonId;
+        this.maHoaDon = maHoaDon;
     }
 
-    public ChiTietHoaDon(int soLuong, int giaLinhKienId, int hoaDonId) {
+    public ChiTietHoaDon(int soLuong, int giaLinhKienId, String maHoaDon) {
         this.soLuong = soLuong;
         this.giaLinhKienId = giaLinhKienId;
-        this.hoaDonId = hoaDonId;
+        this.maHoaDon = maHoaDon;
     }
-
 
     public ChiTietHoaDon() {
     }
@@ -56,11 +55,12 @@ public class ChiTietHoaDon {
         this.giaLinhKienId = giaLinhKienId;
     }
 
-    public int getHoaDonId() {
-        return hoaDonId;
+    public String getMaHoaDon() {
+        return maHoaDon;
     }
 
-    public void setHoaDonId(int hoaDonId) {
-        this.hoaDonId = hoaDonId;
+    public void setMaHoaDon(String maHoaDon) {
+        this.maHoaDon = maHoaDon;
     }
+
 }

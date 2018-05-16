@@ -306,10 +306,10 @@ public class Home extends javax.swing.JFrame {
         mnuThemViTriLinhKien = new javax.swing.JMenuItem();
         mnuThemDonVi = new javax.swing.JMenuItem();
         mnuThemLoaiSanPham = new javax.swing.JMenuItem();
+        mnuThemKhachHang = new javax.swing.JMenuItem();
         mnuSapXepTang = new javax.swing.JMenu();
         mnuSortDown = new javax.swing.JMenuItem();
         mnuSortUp = new javax.swing.JMenuItem();
-        mnuTaoHoaDon = new javax.swing.JMenu();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -671,6 +671,19 @@ public class Home extends javax.swing.JFrame {
         });
         jMenu2.add(mnuThemLoaiSanPham);
 
+        mnuThemKhachHang.setText("Thêm khách hàng");
+        mnuThemKhachHang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mnuThemKhachHangMouseClicked(evt);
+            }
+        });
+        mnuThemKhachHang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuThemKhachHangActionPerformed(evt);
+            }
+        });
+        jMenu2.add(mnuThemKhachHang);
+
         jMenuBar1.add(jMenu2);
 
         mnuSapXepTang.setText("Sắp xếp linh kiện");
@@ -692,19 +705,6 @@ public class Home extends javax.swing.JFrame {
         mnuSapXepTang.add(mnuSortUp);
 
         jMenuBar1.add(mnuSapXepTang);
-
-        mnuTaoHoaDon.setText("Tạo hóa đơn");
-        mnuTaoHoaDon.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                mnuTaoHoaDonMouseClicked(evt);
-            }
-        });
-        mnuTaoHoaDon.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuTaoHoaDonActionPerformed(evt);
-            }
-        });
-        jMenuBar1.add(mnuTaoHoaDon);
 
         setJMenuBar(jMenuBar1);
 
@@ -798,33 +798,47 @@ public class Home extends javax.swing.JFrame {
 
         String donVi = cbDonVi.getSelectedItem().toString();
         int idDV = new DbDonVi().getIdByName(donVi);
-       
-        LinhKien lk=new LinhKien(tenLK,urlHinhAnh, idLoaiLK, idVTLK);
-        boolean check = new DbLinhKien().insertLinhKien(lk);
-        if(!check){
-            int idLK = new DbLinhKien().getIdLinhKien(tenLK, idLoaiLK, idVTLK);
-            System.err.println(idLK);
-            if (idLK > 0){
-                GiaLinhKien glk = new GiaLinhKien(giaNhap, giaBan, ngayNhap, idDV, idLK);
-                boolean checkInsert = new DbGiaLinhKien().insertGiaLinhKien(glk);
-            
-                if (!checkInsert){
-                    ThongBao thongBao = new ThongBao(Contants.INSERT_SUCCESS);
+        int gia_nhap = 0;
+        int gia_ban = 0;
+        try{
+            gia_nhap = Integer.parseInt(giaNhap);
+            gia_ban = Integer.parseInt(giaBan);
+
+            if (gia_ban > 0 && gia_nhap > 0) {
+                LinhKien lk = new LinhKien(tenLK, urlHinhAnh, idLoaiLK, idVTLK);
+                boolean check = new DbLinhKien().insertLinhKien(lk);
+                if (!check) {
+                    int idLK = new DbLinhKien().getIdLinhKien(tenLK, idLoaiLK, idVTLK);
+                    System.err.println(idLK);
+                    if (idLK > 0) {
+
+                        if (gia_ban > 0 && gia_nhap > 0) {
+                            GiaLinhKien glk = new GiaLinhKien(giaNhap, giaBan, ngayNhap, idDV, idLK);
+                            boolean checkInsert = new DbGiaLinhKien().insertGiaLinhKien(glk);
+
+                            if (!checkInsert) {
+                                ThongBao thongBao = new ThongBao(Contants.INSERT_SUCCESS);
+                                thongBao.show();
+
+                                //xoa het du lieu trong cac text component
+                                clearAllTextField();
+                                lblHinhAnh.setIcon(null);
+
+                                //cap nhat lai bang linh kien
+                                ArrayList<GiaLinhKien> list = new ArrayList<>();
+                                list = new DbGiaLinhKien().getListGiaLinhKien();
+                                updateTable(list);
+                            }
+                        }
+                    }
+                } else {
+                    ThongBao thongBao = new ThongBao(Contants.INSERT_FAIL);
                     thongBao.show();
-
-                    //xoa het du lieu trong cac text component
-                    clearAllTextField();
-                    lblHinhAnh.setIcon(null);
-
-                    //cap nhat lai bang linh kien
-                    ArrayList<GiaLinhKien> list=new ArrayList<>();
-                    list=new DbGiaLinhKien().getListGiaLinhKien();
-                    updateTable(list);
-                }  
+                }
             }
-        } else {
-            ThongBao thongBao = new ThongBao(Contants.INSERT_FAIL);
-            thongBao.show();
+        } catch (Exception ex) {
+            ThongBao tb = new ThongBao(Contants.WARNING_A_DIGIT_PRICE);
+            tb.show();
         }
     }//GEN-LAST:event_btnThemLinhKienActionPerformed
 
@@ -891,8 +905,6 @@ public class Home extends javax.swing.JFrame {
             }
             System.err.println(Contants.TEN_LOAI_LINH_KIEN);
         }
-        
-        
         updateTable(listGLK);
     }//GEN-LAST:event_btnSearchActionPerformed
 
@@ -965,7 +977,6 @@ public class Home extends javax.swing.JFrame {
             ThongBao thongBao = new ThongBao(Contants.UPDATE_FAIL);
             thongBao.show();
         }
-        
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -988,16 +999,15 @@ public class Home extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
-    private void mnuTaoHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuTaoHoaDonActionPerformed
+    private void mnuThemKhachHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuThemKhachHangActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_mnuTaoHoaDonActionPerformed
+        ThemKhachHang themKH = new ThemKhachHang();
+        themKH.show();
+    }//GEN-LAST:event_mnuThemKhachHangActionPerformed
 
-    private void mnuTaoHoaDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mnuTaoHoaDonMouseClicked
+    private void mnuThemKhachHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mnuThemKhachHangMouseClicked
         // TODO add your handling code here:
-//        this.setVisible(false);
-        TaoHoaDon taoHD = new TaoHoaDon();
-        taoHD.show();
-    }//GEN-LAST:event_mnuTaoHoaDonMouseClicked
+    }//GEN-LAST:event_mnuThemKhachHangMouseClicked
     
     private void clearAllTextField(){
         txtTenLinhKien.setText("");
@@ -1087,8 +1097,8 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JMenu mnuSapXepTang;
     private javax.swing.JMenuItem mnuSortDown;
     private javax.swing.JMenuItem mnuSortUp;
-    private javax.swing.JMenu mnuTaoHoaDon;
     private javax.swing.JMenuItem mnuThemDonVi;
+    private javax.swing.JMenuItem mnuThemKhachHang;
     private javax.swing.JMenuItem mnuThemLoaiLinhKien;
     private javax.swing.JMenuItem mnuThemLoaiSanPham;
     private javax.swing.JMenuItem mnuThemViTriLinhKien;

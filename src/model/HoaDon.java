@@ -12,37 +12,25 @@ import java.util.ArrayList;
  * @author dtvta
  */
 public class HoaDon {
-    private int idHoaDon;
+    private String maHoaDon;
     private String ngayNhap;
-    private int khachHangId;
+    private String maKhachHang;
     private String tongTien;
 
-    public HoaDon(int idHoaDon, String ngayNhap, int khachHangId, String tongTien) {
-        this.idHoaDon = idHoaDon;
-        this.ngayNhap = ngayNhap;
-        this.khachHangId = khachHangId;
-        this.tongTien = tongTien;
-    }
-
-    public HoaDon(String ngayNhap, int khachHangId) {
-        this.ngayNhap = ngayNhap;
-        this.khachHangId = khachHangId;
+    public HoaDon() {
     }
     
-
-    public HoaDon(String ngayNhap, int khachHangId, String tongTien) {
+    public HoaDon( String maHoaDon, String ngayNhap, String maKhachHang, String tongTien) {
         this.ngayNhap = ngayNhap;
-        this.khachHangId = khachHangId;
+        this.maKhachHang = maKhachHang;
         this.tongTien = tongTien;
+        this.maHoaDon = maHoaDon;
     }
 
-    
-    public int getIdHoaDon() {
-        return idHoaDon;
-    }
-
-    public void setIdHoaDon(int idHoaDon) {
-        this.idHoaDon = idHoaDon;
+    public HoaDon(String maHoaDon, String ngayNhap, String maKhachHang) {
+        this.maHoaDon = maHoaDon;
+        this.ngayNhap = ngayNhap;
+        this.maKhachHang = maKhachHang;
     }
 
     public String getNgayNhap() {
@@ -61,13 +49,20 @@ public class HoaDon {
         this.ngayNhap = ngayNhap;
     }
 
-    public int getKhachHangId() {
-        return khachHangId;
+    public String getMaKhachHang() {
+        return maKhachHang;
     }
 
-    public void setKhachHangId(int khachHangId) {
-        this.khachHangId = khachHangId;
+    public void setMaKhachHang(String maKhachHang) {
+        this.maKhachHang = maKhachHang;
     }
 
+    public String getMaHoaDon() {
+        return maHoaDon;
+    }
+
+    public void setMaHoaDon(String maHoaDon) {
+        this.maHoaDon = maHoaDon;
+    }
 
 }

@@ -126,4 +126,27 @@ public class DbGiaLinhKien {
         
         return glk;
     }
+    
+     //lay Gia Linh kien theo id Gia Linh kien
+    public GiaLinhKien getGiaLinhKienByIdGLK(int idGLK){
+        GiaLinhKien glk = new GiaLinhKien();
+        String query="Select * from "+TbGiaLinhKien + " where "+Id_gia_linh_kien+ "= '"+idGLK+" '";
+        try{
+            result=db.getStatement().executeQuery(query);
+            while(result.next()){
+                int id=result.getInt(Id_gia_linh_kien);
+                String giaNhap=result.getString(Gia_nhap);
+                String giaBan = result.getString(Gia_ban);
+                String ngayNhap = result.getString(Ngay_nhap);
+                int idDV = result.getInt(Id_don_vi);
+                int idLK = result.getInt(Id_linh_kien);
+                glk = new GiaLinhKien(id, giaNhap, giaBan, ngayNhap, idDV, idLK );
+            }
+            
+        } catch (SQLException ex){
+            ex.printStackTrace();
+        }
+        
+        return glk;
+    }
 }

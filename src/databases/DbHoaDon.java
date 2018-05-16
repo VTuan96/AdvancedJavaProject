@@ -20,9 +20,9 @@ public class DbHoaDon {
     public CreateDb db;
     private ResultSet result=null;
     public String TbHoaDon="TbHoaDon";
-    public String Id_hoa_don = "Id_hoa_don";
+    public String Ma_hoa_don = "Ma_hoa_don";
     public String Ngay_nhap="Ngay_nhap";
-    public String Khach_hang_Id="Khach_hang_Id";
+    public String Ma_khach_hang="Ma_khach_hang";
     public String Tong_tien="Tong_tien";
     
     public DbHoaDon() {
@@ -31,8 +31,8 @@ public class DbHoaDon {
     
     public int insertHoaDon(HoaDon hd){
         int res=-1;
-        String query= "INSERT INTO `"+ TbHoaDon + "` (`" + Id_hoa_don + "`, `" + Ngay_nhap +"`, `"+ Khach_hang_Id
-                +"`, `"+ Tong_tien + "`) VALUES (NULL, '" + hd.getNgayNhap()+ "', '" + hd.getKhachHangId()
+        String query= "INSERT INTO `"+ TbHoaDon + "` (`" + Ma_hoa_don + "`, `" + Ngay_nhap +"`, `"+ Ma_khach_hang
+                +"`, `"+ Tong_tien + "`) VALUES ('"+hd.getMaHoaDon()+"', '" + hd.getNgayNhap()+ "', '" + hd.getMaKhachHang()
                 + "', '" + hd.getTongTien()+"')";
         System.out.println(query);
         try {
@@ -49,8 +49,8 @@ public class DbHoaDon {
     public int updateHoaDon(HoaDon hd){
         int res = -1;
         String query = "UPDATE " + TbHoaDon + " SET " + Ngay_nhap + " = '" + hd.getNgayNhap()
-                + "' , " + Khach_hang_Id + " = '"+ hd.getKhachHangId() + Tong_tien + " = '"+ 
-                hd.getTongTien()+"' WHERE "+ Id_hoa_don + " = '"+ hd.getIdHoaDon()+ "'";
+                + "' , " + Ma_khach_hang + " = '"+ hd.getMaKhachHang()+ Tong_tien + " = '"+ 
+                hd.getTongTien()+"' WHERE "+ Ma_hoa_don + " LIKE '"+ hd.getMaHoaDon()+ "'";
         System.out.println(query);
         try {
             res = db.getStatement().executeUpdate(query);
@@ -63,9 +63,24 @@ public class DbHoaDon {
     
     public int deleteHoaDon(HoaDon hd){
         int res = -1;
-        String query = "DELETE FROM " + TbHoaDon + " WHERE " + Id_hoa_don + " = " + hd.getIdHoaDon();
+        String query = "DELETE FROM " + TbHoaDon + " WHERE " + Ma_hoa_don + " LIKE " + hd.getMaHoaDon();
         try {
             res = db.getStatement().executeUpdate(query);
+        } catch (SQLException ex) {
+            Logger.getLogger(DbLinhKien.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return res;
+    }
+    
+    public String getLastMaHoaDon(){
+        String res = "";
+        String query = "SELECT * FROM " + TbHoaDon + " ORDER BY " + Ma_hoa_don + " DESC LIMIT 1 ";
+        try {
+            result=db.getStatement().executeQuery(query);
+            while(result.next()){
+                res = result.getString(Ma_hoa_don);
+            }
         } catch (SQLException ex) {
             Logger.getLogger(DbLinhKien.class.getName()).log(Level.SEVERE, null, ex);
         }

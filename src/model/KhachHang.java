@@ -10,13 +10,13 @@ package model;
  * @author dtvta
  */
 public class KhachHang {
-    private int idKhachHang;
+    private String maKhachHang;
     private String tenKhachHang;
     private String diaChi;
     private String dienThoai;
 
-    public KhachHang(int idKhachHang, String tenKhachHang, String diaChi, String dienThoai) {
-        this.idKhachHang = idKhachHang;
+    public KhachHang(String maKhachHang, String tenKhachHang, String diaChi, String dienThoai) {
+        this.maKhachHang = maKhachHang;
         this.tenKhachHang = tenKhachHang;
         this.diaChi = diaChi;
         this.dienThoai = dienThoai;
@@ -29,14 +29,6 @@ public class KhachHang {
     }
 
     public KhachHang() {
-    }
-
-    public int getIdKhachHang() {
-        return idKhachHang;
-    }
-
-    public void setIdKhachHang(int idKhachHang) {
-        this.idKhachHang = idKhachHang;
     }
 
     public String getTenKhachHang() {
@@ -61,6 +53,14 @@ public class KhachHang {
 
     public void setDienThoai(String dienThoai) {
         this.dienThoai = dienThoai;
+    }
+
+    public String getMaKhachHang() {
+        return maKhachHang;
+    }
+
+    public void setMaKhachHang(String maKhachHang) {
+        this.maKhachHang = maKhachHang;
     }
 
 }

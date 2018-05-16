@@ -21,6 +21,8 @@ public class Contants {
     public static String[] columnDV=new String[]{"ID", "Tên đơn vị"};
     public static String columnLK[]={"ID", "Tên linh kiện", "Hình ảnh", "Ngày nhập", "Giá nhập",
                             "Giá bán", "Đơn vị", "Loại linh kiện", "Vị trí linh kiện"};
+    public static String columnKH[]={"Mã khách hàng", "Tên khách hàng", "Địa chỉ", "Số điện thoại"};
+    public static String columnCTHD[]={"STT", "Tên linh kiện", "Đơn vị", "Đơn giá", "Số lượng", "Thành tiền"};
     
     public static String TEN_DON_VI = "Tên đơn vị";
     public static String TEN_LOAI_SAN_PHAM = "Tên loại sản phẩm";
@@ -38,5 +40,8 @@ public class Contants {
     public static String DELETE_FAIL = " DELETE FAIL";
     
     public static String ERROR_FULL_FIELD = " Bạn cần nhập đủ thông tin các trường! ";
+    public static String CREATE_BILL_SUCCESS = " Tạo hóa đơn thành công! \n Bạn có thể lưu file và in hóa đơn! ";
+    public static String WARNING_A_DIGIT_QUANTITY = " Thông tin số lượng phải là số! ";
+    public static String WARNING_A_DIGIT_PRICE = " Thông tin về giá phải là số! ";
     
 }
