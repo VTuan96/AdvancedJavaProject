@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th5 14, 2018 lúc 06:49 PM
+-- Thời gian đã tạo: Th5 16, 2018 lúc 02:55 PM
 -- Phiên bản máy phục vụ: 10.1.31-MariaDB
 -- Phiên bản PHP: 7.2.3
 
@@ -32,7 +32,7 @@ CREATE TABLE `tbchitiethoadon` (
   `Id_chi_tiet_hoa_don` int(11) NOT NULL,
   `So_luong` int(11) NOT NULL,
   `Id_gia_linh_kien` int(11) NOT NULL,
-  `Id_hoa_don` int(11) NOT NULL
+  `Ma_hoa_don` varchar(15) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -72,18 +72,6 @@ CREATE TABLE `tbgialinhkien` (
   `Id_linh_kien` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Đang đổ dữ liệu cho bảng `tbgialinhkien`
---
-
-INSERT INTO `tbgialinhkien` (`Id_gia_linh_kien`, `Gia_nhap`, `Gia_ban`, `Ngay_nhap`, `Id_don_vi`, `Id_linh_kien`) VALUES
-(8, '99000', '109000', '2018/05/14', 1, 23),
-(9, '32000', '38000', '2018/05/14', 2, 24),
-(10, '90000', '110000', '2018/05/14', 1, 25),
-(11, '100000', '105000', '2018/05/14', 2, 26),
-(12, '15000', '16000', '2018/05/14', 5, 27),
-(13, '15000', '19000', '2018/05/14', 1, 28);
-
 -- --------------------------------------------------------
 
 --
@@ -91,10 +79,9 @@ INSERT INTO `tbgialinhkien` (`Id_gia_linh_kien`, `Gia_nhap`, `Gia_ban`, `Ngay_nh
 --
 
 CREATE TABLE `tbhoadon` (
-  `Id_hoa_don` int(11) NOT NULL,
+  `Ma_hoa_don` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
   `Ngay_nhap` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
-  `Khach_hang_Id` int(11) NOT NULL,
-  `Chi_tiet_hoa_don_Id` int(11) NOT NULL,
+  `Ma_khach_hang` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
   `Tong_tien` varchar(50) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -105,11 +92,20 @@ CREATE TABLE `tbhoadon` (
 --
 
 CREATE TABLE `tbkhachhang` (
-  `Id_khach_hang` int(11) NOT NULL,
+  `Ma_khach_hang` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
   `Ten_khach_hang` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `Dia_chi` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `So_dien_thoai` varchar(20) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `tbkhachhang`
+--
+
+INSERT INTO `tbkhachhang` (`Ma_khach_hang`, `Ten_khach_hang`, `Dia_chi`, `So_dien_thoai`) VALUES
+('KH01', 'Đỗ Minh Anh', 'Số 10, ngõ 124 Minh Khai, Hai Bà Trưng, Hà Nội', '0123456788'),
+('KH02', 'Nguyen Van Hung', 'Ta Quang Buu, Ha Noi', '96587120025'),
+('KH03', 'Vu Anh Tuan', 'Hai Ba Trung, Ha Noi', '0123456789');
 
 -- --------------------------------------------------------
 
@@ -124,18 +120,6 @@ CREATE TABLE `tblinhkien` (
   `Loai_linh_kien_id` int(11) NOT NULL,
   `Vi_tri_linh_kien_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Đang đổ dữ liệu cho bảng `tblinhkien`
---
-
-INSERT INTO `tblinhkien` (`Id_linh_kien`, `Ten_linh_kien`, `Hinh_anh`, `Loai_linh_kien_id`, `Vi_tri_linh_kien_id`) VALUES
-(23, 'KIT STM8S105K4T6 Mini', 'C:\\Users\\dtvta\\Pictures\\Screenshots\\kidstm8s1.jpg', 37, 9),
-(24, 'Combo Cảm biến Khí Gas MQ2 ( Gồm 1 Cảm biến MQ2, 1 đề MQ2 )', 'C:\\Users\\dtvta\\Pictures\\Screenshots\\p1484641408_mq2.jpg', 37, 9),
-(25, 'Cảm biến khoảng cách 0-80cm', 'C:\\Users\\dtvta\\Pictures\\Screenshots\\p1433298464_cambienkhoancach350cm.jpg', 34, 8),
-(26, 'Cảm biến khoảng cách 0 đến 50cm', 'C:\\Users\\dtvta\\Pictures\\Screenshots\\p1433298464_cambienkhoancach350cm.jpg', 34, 15),
-(27, 'AT89S52JU', 'C:\\Users\\dtvta\\Pictures\\Screenshots\\at89s52.jpg', 41, 11),
-(28, 'STM8S105C4T6 LQFP48', 'C:\\\\Users\\\\dtvta\\\\Pictures\\\\Screenshots\\\\p1484641408_mq2.jpg', 34, 8);
 
 -- --------------------------------------------------------
 
@@ -252,13 +236,13 @@ ALTER TABLE `tbgialinhkien`
 -- Chỉ mục cho bảng `tbhoadon`
 --
 ALTER TABLE `tbhoadon`
-  ADD PRIMARY KEY (`Id_hoa_don`);
+  ADD PRIMARY KEY (`Ma_hoa_don`);
 
 --
 -- Chỉ mục cho bảng `tbkhachhang`
 --
 ALTER TABLE `tbkhachhang`
-  ADD PRIMARY KEY (`Id_khach_hang`);
+  ADD PRIMARY KEY (`Ma_khach_hang`);
 
 --
 -- Chỉ mục cho bảng `tblinhkien`
@@ -298,7 +282,7 @@ ALTER TABLE `tbvitrilinhkien`
 -- AUTO_INCREMENT cho bảng `tbchitiethoadon`
 --
 ALTER TABLE `tbchitiethoadon`
-  MODIFY `Id_chi_tiet_hoa_don` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id_chi_tiet_hoa_don` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT cho bảng `tbdonvi`
@@ -310,25 +294,13 @@ ALTER TABLE `tbdonvi`
 -- AUTO_INCREMENT cho bảng `tbgialinhkien`
 --
 ALTER TABLE `tbgialinhkien`
-  MODIFY `Id_gia_linh_kien` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
-
---
--- AUTO_INCREMENT cho bảng `tbhoadon`
---
-ALTER TABLE `tbhoadon`
-  MODIFY `Id_hoa_don` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT cho bảng `tbkhachhang`
---
-ALTER TABLE `tbkhachhang`
-  MODIFY `Id_khach_hang` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id_gia_linh_kien` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT cho bảng `tblinhkien`
 --
 ALTER TABLE `tblinhkien`
-  MODIFY `Id_linh_kien` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `Id_linh_kien` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT cho bảng `tbloailinhkien`
